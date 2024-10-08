@@ -1,0 +1,25 @@
+name: bthomas2622/copilot-metrics-export-action
+
+on:
+  schedule:
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+jobs:
+  export-metrics:
+    runs-on: ubuntu-latest
+    steps:
+      - name: GitHub Copilot Usage Metrics API Export
+        uses: bthomas2622/copilot-metrics-export-action@v1.2
+        with:
+          access-token: ${{ secrets.VUE_APP_GITHUB_TOKEN }}
+          enterprise-summary: true
+          enterprise-name: ${{ secrets.VUE_APP_GITHUB_ENT }}
+          # the following is for GitHub Copilot with GHEC
+          org-summary: true
+          org-name: callmegreg-demo-org
+          team-summary: true
+          team-name: pleasework
+          # the following is for GitHub Copilot for Non-GHEC
+          # enterprise-team-summary: ""
+          # enterprise-team-name: ""
