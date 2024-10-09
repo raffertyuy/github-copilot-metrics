@@ -15,9 +15,9 @@
         "identityProviders": {
         "azureActiveDirectory": {
             "registration": {
-            "openIdIssuer": "https://login.microsoftonline.com/TENANT_ID/v2.0",
-            "clientIdSettingName": "AZURE_CLIENT_ID",
-            "clientSecretSettingName": "AZURE_CLIENT_SECRET"
+            "openIdIssuer": "https://login.microsoftonline.com/#{ENTRA_ID_TENANT_ID}#/v2.0",
+            "clientIdSettingName": "#{ENTRA_ID_CLIENT_ID}#",
+            "clientSecretSettingName": "#{ENTRA_ID_CLIENT_SECRET}#"
             }
         }
         }

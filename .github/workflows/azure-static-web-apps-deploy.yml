@@ -20,6 +20,13 @@ jobs:
         with:
           submodules: true
           lfs: false
+      - uses: cschleiden/replace-tokens@v1
+        with:
+          files: '["**/*.js"]'
+        env:
+          ENTRA_ID_TENANT_ID: ${{ secrets.ENTRA_ID_TENANT_ID }}
+          ENTRA_ID_CLIENT_ID: ${{ secrets.ENTRA_ID_CLIENT_ID }}
+          ENTRA_ID_CLIENT_SECRET: ${{ secrets.ENTRA_ID_CLIENT_SECRET }}
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
