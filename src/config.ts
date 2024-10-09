@@ -3,7 +3,7 @@ const PROPS = ["MOCKED_DATA", "SCOPE", "GITHUB_ORG", "GITHUB_ENT", "GITHUB_TEAM"
 const env: any = {};
 PROPS.forEach(prop => {
 	const propName = `VUE_APP_${prop}`;
-	if (process.env.NODE_ENV === "production") {
+	if (process.env.NODE_ENV === "Production") {
 		env[propName] = (window as any)["_ENV_"][propName];
 	}
 	else {
