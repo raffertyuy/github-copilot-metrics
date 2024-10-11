@@ -1,4 +1,4 @@
-name: Copilot Usage Metrics Export
+name: bthomas2622/copilot-metrics-export-action
 
 on:
   schedule:

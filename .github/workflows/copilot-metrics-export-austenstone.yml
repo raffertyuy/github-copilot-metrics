@@ -1,0 +1,32 @@
+name: austenstone/copilot-usage
+
+on:
+  schedule:
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+jobs:
+  export-metrics:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Enterprise Copilot Usage Metrics Export
+        uses: austenstone/copilot-usage@v4
+        with:
+          github-token: ${{ secrets.VUE_APP_GITHUB_TOKEN }}
+          enterprise: ${{ secrets.VUE_APP_GITHUB_ENT }}
+          days: 28
+      - name: Organization Copilot Usage Metrics Export
+        uses: austenstone/copilot-usage@v4
+        with:
+          github-token: ${{ secrets.VUE_APP_GITHUB_TOKEN }}
+          enterprise: ${{ secrets.VUE_APP_GITHUB_ENT }}
+          organization: callmegreg-demo-org
+          days: 28
+      - name: Team Copilot Usage Metrics Export
+        uses: austenstone/copilot-usage@v4
+        with:
+          github-token: ${{ secrets.VUE_APP_GITHUB_TOKEN }}
+          enterprise: ${{ secrets.VUE_APP_GITHUB_ENT }}
+          organization: callmegreg-demo-org
+          team: pleasework
+          days: 28
