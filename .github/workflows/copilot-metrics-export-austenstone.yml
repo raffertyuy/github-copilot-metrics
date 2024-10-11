@@ -1,3 +1,5 @@
+# Vanilla implementation of https://github.com/marketplace/actions/copilot-usage-action
+
 name: austenstone/copilot-usage
 
 on:
@@ -6,27 +8,90 @@ on:
   workflow_dispatch:
 
 jobs:
-  export-metrics:
+  display-date-and-time-now:
     runs-on: ubuntu-latest
     steps:
-      - name: Enterprise Copilot Usage Metrics Export
+      - name: Display date and time now
+        run: |
+          DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          echo "Date and Time: $DATE" >> $GITHUB_STEP_SUMMARY
+        shell: bash
+        
+  export-metrics-full:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Enterprise Copilot Usage Metrics Export (Full)
+        id: export
         uses: austenstone/copilot-usage@v4
         with:
           github-token: ${{ secrets.VUE_APP_GITHUB_TOKEN }}
           enterprise: ${{ secrets.VUE_APP_GITHUB_ENT }}
-          days: 28
-      - name: Organization Copilot Usage Metrics Export
+          organization: "" # defaults to github.repository_owner if unspecified
+      - name: Save Export Result to JSON
+        run: echo '${{ steps.export.outputs.result }}' > export-metrics-full.json
+      - name: Upload Full Metrics Export Result
+        uses: actions/upload-artifact@v4
+        with:
+          name: copilot-metrics-export-full
+          path: export-metrics-full.json
+
+  export-metrics-yesterday:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Enterprise Copilot Usage Metrics Export (Yesterday)
+        id: export
         uses: austenstone/copilot-usage@v4
         with:
           github-token: ${{ secrets.VUE_APP_GITHUB_TOKEN }}
           enterprise: ${{ secrets.VUE_APP_GITHUB_ENT }}
-          organization: callmegreg-demo-org
-          days: 28
+          organization: "" # defaults to github.repository_owner if unspecified
+          days: 1 # this will show yesterday's data according to the UTC calendar date, it doesn't include today's uncompleted metrics data.
+      - name: Save Export Result to JSON
+        run: echo '${{ steps.export.outputs.result }}' > export-metrics-yesterday.json
+      - name: Upload Yesterday Metrics Export Result
+        uses: actions/upload-artifact@v4
+        with:
+          name: copilot-metrics-export-yesterday
+          path: export-metrics-yesterday.json
+
+#  Commenting this out as this part always fails at the moment
+#   export-org-metrics:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Organization Copilot Usage Metrics Export
+#         id: export
+#         uses: austenstone/copilot-usage@v4
+#         with:
+#           github-token: ${{ secrets.VUE_APP_GITHUB_TOKEN }}
+#           enterprise: ${{ secrets.VUE_APP_GITHUB_ENT }}
+#           organization: callmegreg-demo-org
+#           # This job is still always failing, tried adding the line below but it didn't solve it.
+#           team: ""
+#       - name: Save Export Result to JSON
+#         run: echo '${{ steps.export.outputs.result }}' > export-metrics-org.json
+#       - name: Upload Organization Metrics Export Result
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: copilot-metrics-export-org
+#           path: export-metrics-org.json
+
+  export-team-metrics:
+    runs-on: ubuntu-latest
+    outputs:
+      result: ${{ steps.export.outputs.result }}
+    steps:
       - name: Team Copilot Usage Metrics Export
+        id: export
         uses: austenstone/copilot-usage@v4
         with:
           github-token: ${{ secrets.VUE_APP_GITHUB_TOKEN }}
           enterprise: ${{ secrets.VUE_APP_GITHUB_ENT }}
           organization: callmegreg-demo-org
           team: pleasework
-          days: 28
+      - name: Save Export Result to JSON
+        run: echo '${{ steps.export.outputs.result }}' > export-metrics-team.json
+      - name: Upload Team Metrics Export Result
+        uses: actions/upload-artifact@v4
+        with:
+          name: copilot-metrics-export-team
+          path: export-metrics-team.json

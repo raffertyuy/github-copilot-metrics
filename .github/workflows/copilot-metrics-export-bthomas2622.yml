@@ -1,3 +1,5 @@
+# Vanilla implementation of https://github.com/marketplace/actions/github-copilot-usage-metrics-api-export
+
 name: bthomas2622/copilot-metrics-export-action
 
 on:
