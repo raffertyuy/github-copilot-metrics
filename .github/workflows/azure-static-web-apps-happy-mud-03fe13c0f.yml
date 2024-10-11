@@ -5,15 +5,13 @@ on:
     branches:
       - main
     paths-ignore:
-      - '.github/workflows/copilot-metrics-export-austenstone.yml'
-      - '.github/workflows/copilot-metrics-export-bthomas2622.yml'
+      - '.github/workflows/copilot-metrics-export*.yml'
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:
       - main
     paths-ignore:
-      - '.github/workflows/copilot-metrics-export-austenstone.yml'
-      - '.github/workflows/copilot-metrics-export-bthomas2622.yml'
+      - '.github/workflows/copilot-metrics-export*.yml'
   workflow_dispatch:
 
 jobs:

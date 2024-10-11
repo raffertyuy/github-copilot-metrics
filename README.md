@@ -8,11 +8,14 @@ It currently contains:
   - The dashboard can only show the metrics for a single enterprise, organization or team.
   - Multi-org/team metrics export is not supported yet.
 2. A GitHub Action to deploy the viewer to Azure Static Web Apps
-  - Uses actions variables and secrets to set the SWA environment settings
-  - Uses actions secrets to set the Entra ID authentication settings
+  - Uses actions variables and secrets to set the SWA environment settings.
+  - Uses actions secrets to set the Entra ID authentication settings.
 3. A GitHub Action to [export the usage metrics to CSV](https://github.com/marketplace/actions/github-copilot-usage-metrics-api-export)
   - Exports for a single enterprise, single org and single team.
   - Multi-org/team metrics export is not supported yet.
+4. A GitHub Action to [export the usage metrics in the GitHub Actions summary to CSV/JSON/XML](https://github.com/marketplace/actions/copilot-usage-action)
+  - Exports for a single enterprise, single org and single team.
+  - Ability to export for specific days (instead of always the last 28 days).
 
 ## GitHub Copilot Usage Metrics Viewer
 To run locally

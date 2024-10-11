@@ -16,9 +16,10 @@ jobs:
           DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
           echo "Date and Time: $DATE" >> $GITHUB_STEP_SUMMARY
         shell: bash
-        
+
   export-metrics-full:
     runs-on: ubuntu-latest
+    needs: display-date-and-time-now
     steps:
       - name: Enterprise Copilot Usage Metrics Export (Full)
         id: export
@@ -37,6 +38,7 @@ jobs:
 
   export-metrics-yesterday:
     runs-on: ubuntu-latest
+    needs: display-date-and-time-now
     steps:
       - name: Enterprise Copilot Usage Metrics Export (Yesterday)
         id: export
@@ -54,29 +56,27 @@ jobs:
           name: copilot-metrics-export-yesterday
           path: export-metrics-yesterday.json
 
-#  Commenting this out as this part always fails at the moment
-#   export-org-metrics:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Organization Copilot Usage Metrics Export
-#         id: export
-#         uses: austenstone/copilot-usage@v4
-#         with:
-#           github-token: ${{ secrets.VUE_APP_GITHUB_TOKEN }}
-#           enterprise: ${{ secrets.VUE_APP_GITHUB_ENT }}
-#           organization: callmegreg-demo-org
-#           # This job is still always failing, tried adding the line below but it didn't solve it.
-#           team: ""
-#       - name: Save Export Result to JSON
-#         run: echo '${{ steps.export.outputs.result }}' > export-metrics-org.json
-#       - name: Upload Organization Metrics Export Result
-#         uses: actions/upload-artifact@v4
-#         with:
-#           name: copilot-metrics-export-org
-#           path: export-metrics-org.json
+  export-org-metrics:
+    runs-on: ubuntu-latest
+    needs: display-date-and-time-now
+    steps:
+      - name: Organization Copilot Usage Metrics Export
+        id: export
+        uses: austenstone/copilot-usage@v4
+        with:
+          github-token: ${{ secrets.VUE_APP_GITHUB_TOKEN }}
+          organization: dsp-testing
+      - name: Save Export Result to JSON
+        run: echo '${{ steps.export.outputs.result }}' > export-metrics-org.json
+      - name: Upload Organization Metrics Export Result
+        uses: actions/upload-artifact@v4
+        with:
+          name: copilot-metrics-export-org
+          path: export-metrics-org.json
 
   export-team-metrics:
     runs-on: ubuntu-latest
+    needs: display-date-and-time-now
     outputs:
       result: ${{ steps.export.outputs.result }}
     steps:
