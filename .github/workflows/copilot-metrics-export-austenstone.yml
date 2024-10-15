@@ -65,7 +65,7 @@ jobs:
         uses: austenstone/copilot-usage@v4
         with:
           github-token: ${{ secrets.VUE_APP_GITHUB_TOKEN }}
-          organization: dsp-testing
+          organization: ${{ secrets.VUE_APP_GITHUB_ORG }}
       - name: Save Export Result to JSON
         run: echo '${{ steps.export.outputs.result }}' > export-metrics-org.json
       - name: Upload Organization Metrics Export Result
@@ -86,8 +86,8 @@ jobs:
         with:
           github-token: ${{ secrets.VUE_APP_GITHUB_TOKEN }}
           enterprise: ${{ secrets.VUE_APP_GITHUB_ENT }}
-          organization: callmegreg-demo-org
-          team: pleasework
+          organization: ${{ secrets.VUE_APP_GITHUB_ORG }}
+          team: ${{ secrets.VUE_APP_GITHUB_TEAM }}
       - name: Save Export Result to JSON
         run: echo '${{ steps.export.outputs.result }}' > export-metrics-team.json
       - name: Upload Team Metrics Export Result

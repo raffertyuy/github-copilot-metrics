@@ -19,9 +19,9 @@ jobs:
           enterprise-name: ${{ secrets.VUE_APP_GITHUB_ENT }}
           # the following is for GitHub Copilot with GHEC
           org-summary: true
-          org-name: callmegreg-demo-org
+          org-name: ${{ secrets.VUE_APP_GITHUB_ORG }}
           team-summary: true
-          team-name: pleasework
+          team-name: ${{ secrets.VUE_APP_GITHUB_TEAM }}
           # the following is for GitHub Copilot for Non-GHEC
           # enterprise-team-summary: ""
           # enterprise-team-name: ""
